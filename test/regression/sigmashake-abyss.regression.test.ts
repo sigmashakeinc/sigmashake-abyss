@@ -71,7 +71,12 @@ describe("sigmashake-abyss regression — public mirror contract", () => {
   });
 
   test("public collaboration docs exist", () => {
-    for (const rel of ["AGENTS.md", "SPEC_SHEET.md", "integrations/README.md", "integrations/contracts/README.md"]) {
+    for (const rel of [
+      "AGENTS.md",
+      "SPEC_SHEET.md",
+      "integrations/README.md",
+      "integrations/contracts/README.md",
+    ]) {
       expect(existsSync(join(ROOT, rel)), rel).toBe(true);
     }
   });
