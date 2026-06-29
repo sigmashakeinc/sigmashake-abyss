@@ -8,7 +8,11 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const wrangler = readFileSync(join(here, "..", "..", "wrangler.toml"), "utf8");
+const root = join(here, "..", "..");
+const wranglerPath = existsSync(join(root, "wrangler.toml"))
+  ? join(root, "wrangler.toml")
+  : join(root, "wrangler.example.toml");
+const wrangler = readFileSync(wranglerPath, "utf8");
 
 describe("sigmashake-abyss wrangler.toml", () => {
   it("declares the worker name", () => {

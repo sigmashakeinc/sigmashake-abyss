@@ -10,6 +10,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const SRC = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "src");
+const ROOT = join(SRC, "..");
+const WRANGLER_PATH = existsSync(join(ROOT, "wrangler.toml"))
+  ? join(ROOT, "wrangler.toml")
+  : join(ROOT, "wrangler.example.toml");
 
 describe("sigmashake-abyss integration — module wiring", () => {
   it("entry point src/index.ts exists and ships a default export", () => {
@@ -23,7 +27,7 @@ describe("sigmashake-abyss integration — module wiring", () => {
   });
 
   it("any Durable Object class referenced in wrangler.toml is exported from its file", () => {
-    const wrangler = readFileSync(join(SRC, "..", "wrangler.toml"), "utf8");
+    const wrangler = readFileSync(WRANGLER_PATH, "utf8");
     const classes = [...wrangler.matchAll(/class_name\s*=\s*"([^"]+)"/g)].map((m) => m[1]);
     if (classes.length === 0) return; // no DO bindings — nothing to verify
     const main = readFileSync(join(SRC, "index.ts"), "utf8");
